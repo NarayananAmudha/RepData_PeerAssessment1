@@ -187,14 +187,22 @@ total_diff <- sum(tot_steps_by_day_i$steps) - sum(tot_steps_by_day$steps)
 
 
 ## Differences in activity patterns between weekdays and weekends
-* Prepare the data by factorising data to weekday or weekend
-* Create a panel plot for comparison of number of steps between the weekend and weekdays.
- 
+* Prepare the data by factorising data to weekday or weekend 
 
 ```r
 weekdays <- c("Monday", "Tuesday", "Wednesday", "Thursday","Friday")
 data.i$wday = as.factor(ifelse(is.element(weekdays(as.Date(data.i$date)),weekdays),"Weekday", "Weekend"))
+table(data.i$wday)
+```
 
+```
+## 
+## Weekday Weekend 
+##   12960    4608
+```
+* Create a panel plot for comparison of number of steps between the weekend and weekdays.
+
+```r
 steps_by_interval_i <- aggregate(steps ~ interval + wday, data.i, mean)
 
 library(lattice)
@@ -204,7 +212,6 @@ xyplot(steps_by_interval_i$steps ~ steps_by_interval_i$interval|steps_by_interva
        xlab="Interval", ylab="Number of Steps",layout=c(1,2), type="l")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
-
+![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
 
  **During Weekends there is more activity in all time intervals comparing to weekdays, where more activities are in earlier time interval.**

@@ -218,12 +218,17 @@ med_diff &lt;- rmedian.i - rmedian</code></pre>
 <h2>Differences in activity patterns between weekdays and weekends</h2>
 <ul>
 <li>Prepare the data by factorising data to weekday or weekend</li>
-<li>Create a panel plot for comparison of number of steps between the weekend and weekdays.</li>
 </ul>
 <pre class="r"><code>weekdays &lt;- c(&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;,&quot;Friday&quot;)
 data.i$wday = as.factor(ifelse(is.element(weekdays(as.Date(data.i$date)),weekdays),&quot;Weekday&quot;, &quot;Weekend&quot;))
-
-steps_by_interval_i &lt;- aggregate(steps ~ interval + wday, data.i, mean)
+table(data.i$wday)</code></pre>
+<pre><code>## 
+## Weekday Weekend 
+##   12960    4608</code></pre>
+<ul>
+<li>Create a panel plot for comparison of number of steps between the weekend and weekdays.</li>
+</ul>
+<pre class="r"><code>steps_by_interval_i &lt;- aggregate(steps ~ interval + wday, data.i, mean)
 
 library(lattice)
 
