@@ -163,6 +163,7 @@ weekdays <- c("Monday", "Tuesday", "Wednesday", "Thursday","Friday")
 data.i$wday = as.factor(ifelse(is.element(weekdays(as.Date(data.i$date)),weekdays),"Weekday", "Weekend"))
 table(data.i$wday)
 ```
+ 
 * Create a panel plot for comparison of number of steps between the weekend and weekdays.
 ``` {r}
 steps_by_interval_i <- aggregate(steps ~ interval + wday, data.i, mean)
@@ -174,4 +175,4 @@ xyplot(steps_by_interval_i$steps ~ steps_by_interval_i$interval|steps_by_interva
        xlab="Interval", ylab="Number of Steps",layout=c(1,2), type="l")
 ```
 
- **During Weekends there is more activity in all time intervals comparing to weekdays, where more activities are in earlier time interval.**
+ **During Weekends activity is almost uniform in all time intervals comparing to weekdays, where more activities are in earlier time interval.**

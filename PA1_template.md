@@ -200,6 +200,7 @@ table(data.i$wday)
 ## Weekday Weekend 
 ##   12960    4608
 ```
+ 
 * Create a panel plot for comparison of number of steps between the weekend and weekdays.
 
 ```r
@@ -214,4 +215,4 @@ xyplot(steps_by_interval_i$steps ~ steps_by_interval_i$interval|steps_by_interva
 
 ![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
 
- **During Weekends there is more activity in all time intervals comparing to weekdays, where more activities are in earlier time interval.**
+ **During Weekends activity is almost uniform in all time intervals comparing to weekdays, where more activities are in earlier time interval.**
