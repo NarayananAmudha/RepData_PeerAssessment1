@@ -32,7 +32,10 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 
 ## Loading and preprocessing the data
 
-Download, unzip and load data into data frame `data`. 
+* Download zip file
+* Unzip file 
+* Load data into data frame `data`.
+* Get clean data by omitting NA records
 
 ```r
 if(!file.exists("activitydataset.zip")) {
@@ -169,7 +172,6 @@ med_diff <- rmedian.i - rmedian
 
 - The difference between the original mean and imputed mean is 0
 - The difference between the original median and imputed median is 1.19
-
 
  **Impact of imputed data over original data in terms number of steps**
  

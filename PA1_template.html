@@ -94,7 +94,12 @@ img {
 </div>
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
-<p>Download, unzip and load data into data frame <code>data</code>.</p>
+<ul>
+<li>Download zip file</li>
+<li>Unzip file</li>
+<li>Load data into data frame <code>data</code>.</li>
+<li>Get clean data by omitting NA records</li>
+</ul>
 <pre class="r"><code>if(!file.exists(&quot;activitydataset.zip&quot;)) {
         temp &lt;- tempfile()
         download.file(&quot;http://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip&quot;,temp)
