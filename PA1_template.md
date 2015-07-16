@@ -1,7 +1,7 @@
 # Reproducible Research: Activity Monitoring Dataset
 
 ###Introduction
-This is an analysis of the Activity Monitoring dataset provided by the **Reproducible Research** Coursera course offered by the John Hopkins Bloomberg Schools of Public Health. This dataset measures daily activity levels and was obtained from a personal device utilized by a single anonymous individual collected during the months of October and November of 2012. This data was collected at 5 minute intervals through out the day and includes the number of steps taken during each of these intervals. 
+This is an **analysis of the Activity Monitoring dataset** provided by the **Reproducible Research** Coursera course offered by the John Hopkins Bloomberg Schools of Public Health. This dataset measures daily activity levels and was obtained from a personal device utilized by a single anonymous individual collected during the months of October and November of 2012. This data was collected at 5 minute intervals through out the day and includes the number of steps taken during each of these intervals. 
 
 
 ##Scope
@@ -43,17 +43,18 @@ if(!file.exists("activitydataset.zip")) {
 }
 
 data <- read.csv("activity.csv")
-head(data)
+cleandata<- na.omit(data)
+head(cleandata)
 ```
 
 ```
-##   steps       date interval
-## 1    NA 2012-10-01        0
-## 2    NA 2012-10-01        5
-## 3    NA 2012-10-01       10
-## 4    NA 2012-10-01       15
-## 5    NA 2012-10-01       20
-## 6    NA 2012-10-01       25
+##     steps       date interval
+## 289     0 2012-10-02        0
+## 290     0 2012-10-02        5
+## 291     0 2012-10-02       10
+## 292     0 2012-10-02       15
+## 293     0 2012-10-02       20
+## 294     0 2012-10-02       25
 ```
 
 
@@ -63,7 +64,7 @@ head(data)
 * Calculate mean and median.
 
 ```r
-tot_steps_by_day <- aggregate(steps ~ date, data, sum)
+tot_steps_by_day <- aggregate(steps ~ date, cleandata, sum)
 hist(tot_steps_by_day$steps, main = paste("Total Steps Each Day"), 
      col="red", xlab="Number of Steps")
 ```
@@ -85,7 +86,7 @@ The original dataset **mean** is **10766.19** and the **median** is **10765**.
 * Find interval with most average steps. 
 
 ```r
-steps_by_interval <- aggregate(steps ~ interval, data, mean)
+steps_by_interval <- aggregate(steps ~ interval, cleandata, mean)
 
 plot(steps_by_interval$interval,steps_by_interval$steps, type="l", 
      xlab="Interval", ylab="Number of Steps",
@@ -204,4 +205,4 @@ xyplot(steps_by_interval_i$steps ~ steps_by_interval_i$interval|steps_by_interva
 ![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
 
 
-**During Weekends there is more activity in all time intervals comparing to weekdays, where more activities are in earlier time interval. ** 
+ **During Weekends there is more activity in all time intervals comparing to weekdays, where more activities are in earlier time interval.**
