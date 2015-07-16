@@ -1,9 +1,4 @@
----
-title: "Reproducible Research: Activity Monitoring Dataset"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Activity Monitoring Dataset
 
 ###Introduction
 This is an analysis of the Activity Monitoring dataset provided by the **Reproducible Research** Coursera course offered by the John Hopkins Bloomberg Schools of Public Health. This dataset measures daily activity levels and was obtained from a personal device utilized by a single anonymous individual collected during the months of October and November of 2012. This data was collected at 5 minute intervals through out the day and includes the number of steps taken during each of these intervals. 
@@ -38,7 +33,8 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 ## Loading and preprocessing the data
 
 Download, unzip and load data into data frame `data`. 
-```{r}
+
+```r
 if(!file.exists("activitydataset.zip")) {
         temp <- tempfile()
         download.file("http://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip",temp)
@@ -50,28 +46,45 @@ data <- read.csv("activity.csv")
 head(data)
 ```
 
+```
+##   steps       date interval
+## 1    NA 2012-10-01        0
+## 2    NA 2012-10-01        5
+## 3    NA 2012-10-01       10
+## 4    NA 2012-10-01       15
+## 5    NA 2012-10-01       20
+## 6    NA 2012-10-01       25
+```
+
 
 ## Mean total number of steps taken per day
 * Sum steps by day.
 * Create Histogram.
 * Calculate mean and median.
-```{r}
+
+```r
 tot_steps_by_day <- aggregate(steps ~ date, data, sum)
 hist(tot_steps_by_day$steps, main = paste("Total Steps Each Day"), 
      col="red", xlab="Number of Steps")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+
+```r
 options("scipen" = 100, "digits" = 2) # avoid printing output in exponential notation
 rmean <- mean(tot_steps_by_day$steps)
 rmedian <- median(tot_steps_by_day$steps)
 ```
 
-The original dataset **mean** is **`r rmean`** and the **median** is **`r rmedian`**.
+The original dataset **mean** is **10766.19** and the **median** is **10765**.
 
 ## Average daily activity pattern
 
 * Calculate average steps for each interval for all days. 
 * Plot the Average Number Steps averaged across all days by Interval. 
 * Find interval with most average steps. 
-```{r}
+
+```r
 steps_by_interval <- aggregate(steps ~ interval, data, mean)
 
 plot(steps_by_interval$interval,steps_by_interval$steps, type="l", 
@@ -82,7 +95,9 @@ max_interval <- steps_by_interval[which.max(steps_by_interval$steps),1]
 abline(v = max_interval, col = "red", lwd = 3)
 ```
 
-The **interval at maximum number of steps** recorded is **`r max_interval`** .
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+
+The **interval at maximum number of steps** recorded is **835** .
 
 
 ## Impute missing values and impact of imputed with original data.
@@ -90,15 +105,17 @@ The **interval at maximum number of steps** recorded is **`r max_interval`** .
 * Strategy for filling in all of the missing values in the dataset
     - Missing values were imputed by inserting the average for each interval. 
     - Say, if interval 10 was missing on 10-02-2012, the average for that interval for all days (0.1320755) is inserted in place of NA. 
-```{r}
+
+```r
 incomplete <- sum(!complete.cases(data))
 data.i <- transform(data, steps = ifelse(is.na(data$steps), steps_by_interval$steps[match(data$interval, steps_by_interval$interval)], data$steps))
 ```
 
-The **total number of missing values** in the dataset **`r incomplete`**.
+The **total number of missing values** in the dataset **2304**.
 
 * Recount total steps by day and create overlapped Histogram with new imputed and original datasets to show differnces. 
-```{r}
+
+```r
 tot_steps_by_day_i <- aggregate(steps ~ date, data.i, sum)
 hist(tot_steps_by_day_i$steps, main = paste("Total Steps Each Day"), 
      col="blue", xlab="Number of Steps")
@@ -110,45 +127,58 @@ legend("topright", c("Imputed Data", "Original Data"),
        col=c("blue", "red"), lwd=10)
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+
 * Calculate new mean and median for imputed data. 
-```{r}
+
+```r
 rmean.i <- mean(tot_steps_by_day_i$steps)
 rmedian.i <- median(tot_steps_by_day_i$steps)
 ```
-The imputed dataset **mean** is **`r rmean.i`** and the **median** is **`r rmedian.i`**.
+The imputed dataset **mean** is **10766.19** and the **median** is **10766.19**.
 
 * Combine mean and median of imputed data and Original data for comparative study. 
-```{r}
+
+```r
 comptable <- matrix(c(rmean, rmedian, rmean.i, rmedian.i), ncol=2)
 rownames(comptable) <- c("Mean", "Median")
 colnames(comptable) <- c("Original Data", "Imputed Data")
 ```
  
  **Comparison Report of Mean and Median of imputed and original data** 
-```{r}
+
+```r
 comptable
+```
+
+```
+##        Original Data Imputed Data
+## Mean           10766        10766
+## Median         10765        10766
 ```
 
 **Differences of imputed data with original data**
 
 * Calculate difference between imputed and Original data.
-```{r}
+
+```r
 mean_diff <- rmean.i - rmean
 med_diff <- rmedian.i - rmedian
 ```
 
-- The difference between the original mean and imputed mean is `r mean_diff`
-- The difference between the original median and imputed median is `r med_diff`
+- The difference between the original mean and imputed mean is 0
+- The difference between the original median and imputed median is 1.19
 
 
  **Impact of imputed data over original data in terms number of steps**
  
  * Calculate the difference in the toal number of steps.
-```{r}
+
+```r
 total_diff <- sum(tot_steps_by_day_i$steps) - sum(tot_steps_by_day$steps)
 ```
  
-- Impact of imputing missing data on the estimates of the total daily number of steps between imputed and original data is `r total_diff`. 
+- Impact of imputing missing data on the estimates of the total daily number of steps between imputed and original data is 86129.51. 
 
 
 
@@ -157,7 +187,8 @@ total_diff <- sum(tot_steps_by_day_i$steps) - sum(tot_steps_by_day$steps)
 * Prepare the data by factorising data to weekday or weekend
 * Create a panel plot for comparison of number of steps between the weekend and weekdays.
  
-``` {r}
+
+```r
 weekdays <- c("Monday", "Tuesday", "Wednesday", "Thursday","Friday")
 data.i$wday = as.factor(ifelse(is.element(weekdays(as.Date(data.i$date)),weekdays),"Weekday", "Weekend"))
 
@@ -169,6 +200,8 @@ xyplot(steps_by_interval_i$steps ~ steps_by_interval_i$interval|steps_by_interva
        main="Activity Levels in Weekends vs. Weekdays" ,
        xlab="Interval", ylab="Number of Steps",layout=c(1,2), type="l")
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
 
 
 **During Weekends there is more activity in all time intervals comparing to weekdays, where more activities are in earlier time interval. ** 
